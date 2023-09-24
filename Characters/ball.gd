@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-var shooter_sprite;
+var shooter_sprite
 var angle = 0
 var power = 0.4
 var time_since_shot = 0
@@ -8,8 +8,6 @@ var in_shot = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#var force = Vector2(80, 20)
-	#apply_impulse(force)
 	shooter_sprite = get_node("BallSprite/ShooterSprite")
 
 
@@ -56,3 +54,7 @@ func _process(delta):
 		var y = cos(angle) * power * 100
 		var force = Vector2(y, x)
 		apply_impulse(force)
+
+
+func _on_body_entered(body):
+	print(body)
