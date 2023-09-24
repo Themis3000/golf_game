@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://brsdnh3pu0ow0"]
+
+[ext_resource type="Script" path="res://Characters/ball.gd" id="1_0ptic"]
+[ext_resource type="Texture2D" uid="uid://ckh7yw1qduoh1" path="res://art/Objects/ball.png" id="1_1ptng"]
+[ext_resource type="Texture2D" uid="uid://cugjeufc0u5k0" path="res://art/UI/shooter.svg" id="3_rsvw6"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nhwfd"]
+friction = 0.52
+bounce = 0.83
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sefvr"]
+radius = 5.0
+
+[node name="Ball" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_nhwfd")
+continuous_cd = 2
+can_sleep = false
+linear_damp = 0.1
+script = ExtResource("1_0ptic")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+scale = Vector2(0.179687, 0.179687)
+remote_path = NodePath("../BallSprite")
+update_rotation = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sefvr")
+
+[node name="BallSprite" type="Sprite2D" parent="."]
+top_level = true
+scale = Vector2(0.179687, 0.179687)
+texture = ExtResource("1_1ptng")
+offset = Vector2(0, 1.515)
+
+[node name="ShooterSprite" type="Sprite2D" parent="BallSprite"]
+show_behind_parent = true
+position = Vector2(-0.0554964, 0)
+scale = Vector2(0.459543, 0.270982)
+texture = ExtResource("3_rsvw6")
+offset = Vector2(152.88, 0)
