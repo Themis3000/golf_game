@@ -53,8 +53,6 @@ layer_2/tile_data = PackedInt32Array()
 
 [node name="Ball" parent="." instance=ExtResource("7_18qaj")]
 position = Vector2(322, 195)
-max_contacts_reported = 4
-contact_monitor = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(390, 201)
