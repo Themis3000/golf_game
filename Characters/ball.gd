@@ -1,15 +1,36 @@
 extends RigidBody2D
 
 var shooter_sprite
+var x_sprite
+var area_2d
 var angle = 0
 var power = 0.4
 var time_since_shot = 0
 var in_shot = false
 
+func dia_shift(new_body, old_body):
+	var overlaps_new = area_2d.overlaps_body(new_body)
+	var overlaps_old = area_2d.overlaps_body(old_body)
+	var is_stuck = overlaps_new and not overlaps_old
+	set_stuck(is_stuck)
+
+func set_stuck(is_stuck):
+	x_sprite.set_visible(is_stuck)
+	set_freeze_enabled(is_stuck)
+	if is_stuck:
+		set_linear_velocity(Vector2(0, 0))
+		set_angular_velocity(0)
+		in_shot = false
+		shooter_sprite.set_visible(false)
+	elif not in_shot:
+		shooter_sprite.set_visible(true)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	shooter_sprite = get_node("BallSprite/ShooterSprite")
-
+	x_sprite = get_node("BallSprite/xSprite")
+	area_2d = get_node("Area2D")
+	SignalManager.dimension_shift.connect(dia_shift)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -29,32 +50,29 @@ func _process(delta):
 		set_sleeping(true)
 	
 	# Do power/angle input handling
-	var power_input = Input.get_action_strength("power_up") - Input.get_action_strength("power_down")
-	var angle_input = Input.get_action_strength("angle_down") - Input.get_action_strength("angle_up")
+	if not in_shot and not is_freeze_enabled():
+		var power_input = Input.get_action_strength("power_up") - Input.get_action_strength("power_down")
+		var angle_input = Input.get_action_strength("angle_down") - Input.get_action_strength("angle_up")
 	
-	var power_delta = power_input * delta / 3.6
-	var angle_delta = angle_input * delta
+		var power_delta = power_input * delta / 3.6
+		var angle_delta = angle_input * delta
 	
-	power += power_delta
-	if power > 1:
-		power = 1
-	elif power < 0.15:
-		power = 0.15
-	angle += angle_delta
+		power += power_delta
+		if power > 1:
+			power = 1
+		elif power < 0.15:
+			power = 0.15
+		angle += angle_delta
 	
-	shooter_sprite.set_rotation(angle)
-	shooter_sprite.set_scale(Vector2(power, .27))
+		shooter_sprite.set_rotation(angle)
+		shooter_sprite.set_scale(Vector2(power, .27))
 	
-	# Do shot handling
-	if Input.is_action_pressed("shoot") and not in_shot:
-		in_shot = true
-		time_since_shot = 0
-		shooter_sprite.set_visible(false)
-		var x = sin(angle) * power * 100
-		var y = cos(angle) * power * 100
-		var force = Vector2(y, x)
-		apply_impulse(force)
-
-
-func _on_body_entered(body):
-	print(body)
+		# Do shot handling
+		if Input.is_action_pressed("shoot"):
+			in_shot = true
+			time_since_shot = 0
+			shooter_sprite.set_visible(false)
+			var x = sin(angle) * power * 100
+			var y = cos(angle) * power * 100
+			var force = Vector2(y, x)
+			apply_impulse(force)

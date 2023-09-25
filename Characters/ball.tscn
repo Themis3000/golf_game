@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://brsdnh3pu0ow0"]
+[gd_scene load_steps=8 format=3 uid="uid://brsdnh3pu0ow0"]
 
 [ext_resource type="Script" path="res://Characters/ball.gd" id="1_0ptic"]
 [ext_resource type="Texture2D" uid="uid://ckh7yw1qduoh1" path="res://art/Objects/ball.png" id="1_1ptng"]
+[ext_resource type="Texture2D" uid="uid://bj83d0p0wne7k" path="res://art/UI/x.svg" id="3_lr6vb"]
 [ext_resource type="Texture2D" uid="uid://cugjeufc0u5k0" path="res://art/UI/shooter.svg" id="3_rsvw6"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nhwfd"]
@@ -11,7 +12,11 @@ bounce = 0.83
 [sub_resource type="CircleShape2D" id="CircleShape2D_sefvr"]
 radius = 5.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_2exan"]
+radius = 123.53
+
 [node name="Ball" type="RigidBody2D"]
+z_index = 5
 physics_material_override = SubResource("PhysicsMaterial_nhwfd")
 continuous_cd = 2
 can_sleep = false
@@ -26,8 +31,18 @@ update_rotation = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_sefvr")
 
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(0.0322874, 0.0322874)
+collision_layer = 0
+collision_mask = 3
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_2exan")
+
 [node name="BallSprite" type="Sprite2D" parent="."]
 top_level = true
+z_index = 5
 scale = Vector2(0.179687, 0.179687)
 texture = ExtResource("1_1ptng")
 offset = Vector2(0, 1.515)
@@ -38,3 +53,10 @@ position = Vector2(-0.0554964, 0)
 scale = Vector2(0.459543, 0.270982)
 texture = ExtResource("3_rsvw6")
 offset = Vector2(152.88, 0)
+
+[node name="xSprite" type="Sprite2D" parent="BallSprite"]
+visible = false
+z_index = 1
+texture_filter = 2
+scale = Vector2(0.425797, 0.425797)
+texture = ExtResource("3_lr6vb")
