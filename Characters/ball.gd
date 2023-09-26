@@ -56,7 +56,7 @@ func _process(delta):
 	var total_velocity = abs(velocity.x) + abs(velocity.y)
 	
 	# Stop ball if it is moving slow and prepare for another shot
-	if (total_velocity < 3.5) and time_since_shot > 0.75 and in_shot:
+	if (total_velocity < 6) and time_since_shot > 0.75 and in_shot:
 		reset_shot()
 	
 	# Do power/angle input handling
@@ -82,8 +82,8 @@ func _process(delta):
 			in_shot = true
 			time_since_shot = 0
 			shooter_sprite.set_visible(false)
-			var x = sin(angle) * power * 100
-			var y = cos(angle) * power * 100
+			var x = sin(angle) * power * 200
+			var y = cos(angle) * power * 200
 			var force = Vector2(y, x)
 			apply_impulse(force)
 
