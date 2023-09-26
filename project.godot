@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 SignalManager="*res://signal_manager.gd"
+LevelSerializer="*res://core_scripts/level_serializer.gd"
 
 [display]
 

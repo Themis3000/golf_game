@@ -3,7 +3,8 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	# This is temporary and for testing purposes. Remove later.
+	LevelSerializer.serialize_level("test.json", self)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
