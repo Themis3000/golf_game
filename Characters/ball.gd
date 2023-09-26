@@ -96,7 +96,7 @@ func _process(delta):
 func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if body.get_class() != "TileMap":
 		return
-	var collision_layer = body.get_layer_for_body_rid(body_rid)
-	var layer_name = body.get_layer_name(collision_layer)
+	var collided_layer = body.get_layer_for_body_rid(body_rid)
+	var layer_name = body.get_layer_name(collided_layer)
 	if layer_name == "goal":
 		SignalManager.goal_reached.emit()
