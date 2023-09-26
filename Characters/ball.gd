@@ -44,9 +44,14 @@ func _ready():
 	shooter_sprite = get_node("BallSprite/ShooterSprite")
 	x_sprite = get_node("BallSprite/xSprite")
 	area_2d = get_node("Area2D")
-	spawnpoint = get_position()
 	SignalManager.dimension_shift.connect(dia_shift)
 	SignalManager.restart_level.connect(reset_level)
+	SignalManager.level_loaded.connect(level_loaded)
+	set_freeze_enabled(true)
+
+func level_loaded():
+	spawnpoint = get_position()
+	set_freeze_enabled(false)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

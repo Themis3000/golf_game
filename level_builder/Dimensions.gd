@@ -37,7 +37,10 @@ func set_dimension(dimension_id: int):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	SignalManager.restart_level.connect(reset_dimension)
-	dimensions = find_children("*_dim?", "TileMap")
+	SignalManager.level_loaded.connect(level_loaded)
+
+func level_loaded():
+	dimensions = find_children("*_dim?", "TileMap", true, false)
 	dimensions.sort_custom(sort_nodes)
 	
 	# Yes, this is a somewhat strange way of doing things. It was fun though.
@@ -49,7 +52,7 @@ func _ready():
 		duplicate_tileset.set_physics_layer_collision_layer(0, 2)
 		tilesets.append_array([tileset, duplicate_tileset])
 		set_tilemap_disabled(dimension)
-	
+		
 	set_dimension(0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

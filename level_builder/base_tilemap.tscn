@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://c36nsxwrpf4wl"]
+[gd_scene load_steps=2 format=3 uid="uid://bwblsxtm1srjd"]
 
-[ext_resource type="TileSet" uid="uid://boaufsu40it0j" path="res://tileSet.tres" id="1_qphb4"]
+[ext_resource type="TileSet" uid="uid://boaufsu40it0j" path="res://level_builder/tileSet.tres" id="1_va7t3"]
 
 [node name="TileMap" type="TileMap"]
-tile_set = ExtResource("1_qphb4")
+tile_set = ExtResource("1_va7t3")
 format = 2
 layer_0/name = "ground"
 layer_1/name = "walls"
