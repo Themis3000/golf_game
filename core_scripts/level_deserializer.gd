@@ -1,7 +1,6 @@
 extends Node
 
 var base_tilemap = preload("res://level_builder/base_tilemap.tscn")
-var layer_names = ["ground", "walls", "goal"]
 
 func deserialize_level(file_name: String, scene: Node2D):
 	var path = "user://" + file_name
@@ -16,11 +15,19 @@ func deserialize_level(file_name: String, scene: Node2D):
 	for dimension_index in data["dimensions"].size():
 		var dimension_data = data["dimensions"][dimension_index]
 		var tilemap: TileMap = base_tilemap.instantiate()
+		
+		var premade_layers = {}
+		for layer_id in tilemap.get_layers_count():
+			var layer_name = tilemap.get_layer_name(layer_id)
+			premade_layers[layer_name] = layer_id
+		
 		tilemap.set_name("tilemap_dim" + str(dimension_index))
-		for layer in 3:
-			var layer_name = layer_names[layer]
-			tilemap.add_layer(layer)
-			tilemap.set_layer_name(layer, layer_name)
+		for layer_name in dimension_data:
+			var layer = premade_layers.get(layer_name, null)
+			if layer == null:
+				layer = tilemap.get_layers_count() - 1
+				tilemap.add_layer(layer)
+				tilemap.set_layer_name(layer, layer_name)
 			var layer_data = dimension_data[layer_name]
 			for x_value in layer_data:
 				var cell_datas = layer_data[x_value]
