@@ -36,6 +36,7 @@ func set_dimension(dimension_id: int):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	SignalManager.restart_level.connect(reset_dimension)
 	dimensions = find_children("*_dim?", "TileMap")
 	dimensions.sort_custom(sort_nodes)
 	
@@ -58,3 +59,6 @@ func _process(delta):
 			set_dimension(1)
 		else:
 			set_dimension(0)
+
+func reset_dimension():
+	set_dimension(0)

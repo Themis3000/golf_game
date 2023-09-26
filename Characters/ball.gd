@@ -7,6 +7,7 @@ var angle = 0
 var power = 0.4
 var time_since_shot = 0
 var in_shot = false
+var spawnpoint
 
 func dia_shift(new_body, old_body):
 	var overlaps_new = area_2d.overlaps_body(new_body)
@@ -25,12 +26,27 @@ func set_stuck(is_stuck):
 	elif not in_shot:
 		shooter_sprite.set_visible(true)
 
+func reset_level():
+	set_position(spawnpoint)
+	reset_shot()
+
+func reset_shot():
+	in_shot = false
+	shooter_sprite.set_visible(true)
+	angle = 0
+	power = 0.4
+	set_linear_velocity(Vector2(0, 0))
+	set_angular_velocity(0)
+	set_sleeping(true)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	shooter_sprite = get_node("BallSprite/ShooterSprite")
 	x_sprite = get_node("BallSprite/xSprite")
 	area_2d = get_node("Area2D")
+	spawnpoint = get_position()
 	SignalManager.dimension_shift.connect(dia_shift)
+	SignalManager.restart_level.connect(reset_level)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -39,15 +55,9 @@ func _process(delta):
 	var velocity = get_linear_velocity()
 	var total_velocity = abs(velocity.x) + abs(velocity.y)
 	
-	# Stop ball if it is moving slow
+	# Stop ball if it is moving slow and prepare for another shot
 	if (total_velocity < 3.5) and time_since_shot > 0.75 and in_shot:
-		in_shot = false
-		shooter_sprite.set_visible(true)
-		angle = 0
-		power = 0.4
-		set_linear_velocity(Vector2(0, 0))
-		set_angular_velocity(0)
-		set_sleeping(true)
+		reset_shot()
 	
 	# Do power/angle input handling
 	if not in_shot and not is_freeze_enabled():
@@ -77,7 +87,7 @@ func _process(delta):
 			var force = Vector2(y, x)
 			apply_impulse(force)
 
-
+# Detect hitting goal
 func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if body.get_class() != "TileMap":
 		return
