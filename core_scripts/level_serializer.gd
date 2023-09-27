@@ -1,8 +1,7 @@
 extends Node
 
-func serialize_level(file_name: String, scene: Node2D):
+func serialize_level(path: String, scene: Node2D):
 	var data = {}
-	var path = "user://" + file_name
 	
 	var ball = scene.get_node("Ball")
 	var ball_position = ball.get_position()

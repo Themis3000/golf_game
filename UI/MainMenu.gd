@@ -3,7 +3,7 @@ extends Control
 
 
 func _on_play_pressed():
-	get_tree().change_scene_to_file("res://level_builder/level_builder.tscn")
+	get_tree().change_scene_to_file("res://UI/level_selection_screen.tscn")
 
 
 func _on_editor_pressed():

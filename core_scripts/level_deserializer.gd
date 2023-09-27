@@ -2,8 +2,7 @@ extends Node
 
 var base_tilemap = preload("res://level_builder/base_tilemap.tscn")
 
-func deserialize_level(file_name: String, scene: Node2D):
-	var path = "user://" + file_name
+func deserialize_level(path: String, scene: Node2D):
 	var data_string = FileAccess.get_file_as_string(path)
 	var data = JSON.parse_string(data_string)
 	
