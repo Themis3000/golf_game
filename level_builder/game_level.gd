@@ -2,7 +2,6 @@ extends Node2D
 
 
 func load_level(path):
-	print(path)
 	LevelDeserializer.deserialize_level(path, self)
 	SignalManager.level_loaded.emit()
 
